@@ -1,2 +1,2 @@
-This is the old, and discontinued php-syslog-ng project of Clayton Duke. I have updated jpgraph to 3.0.7 to due to PHP errors. The "../html/install/sql/dbsetup.sql" file is ajusted to use MyIsam, instead of InnoDB, because of errors, and performance.
+This is the old, and discontinued php-syslog-ng (version 2.9.9o) project of Clayton Duke. I have updated jpgraph to 3.0.7 to due to PHP errors. The "../html/install/sql/dbsetup.sql" file is ajusted to use MyIsam, instead of InnoDB, because of errors, and performance.
 Please check this wiki (https://github.com/OpenAai/php-syslog-ng/wiki) for installation instructions.
