@@ -43,6 +43,7 @@ RUN \
 ARG PHP_FPM_USER="nginx"
 ARG PHP_FPM_GROUP="www-data"
 ARG PHP_FPM_LISTEN_MODE="0660"
+ARG PHP_FPM_LISTEN_TO="/var/run/php-fpm.sock"
 ARG PHP_MEMORY_LIMIT="512M"
 ARG PHP_MAX_UPLOAD="50M"
 ARG PHP_MAX_FILE_UPLOAD="200"
@@ -59,6 +60,7 @@ RUN \
 	sed -i "s|;listen.mode\s*=\s*0660|listen.mode = ${PHP_FPM_LISTEN_MODE}|g" /etc/php5/php-fpm.conf && \
 	sed -i "s|user\s*=\s*nobody|user = ${PHP_FPM_USER}|g" /etc/php5/php-fpm.conf && \
 	sed -i "s|group\s*=\s*nobody|group = ${PHP_FPM_GROUP}|g" /etc/php5/php-fpm.conf && \
+	sed -i "s|listen\s*=\s*127.0.0.1:9000|listen = ${PHP_FPM_LISTEN_TO}|g" /etc/php5/php-fpm.conf && \
 	sed -i "s|;log_level\s*=\s*notice|log_level = notice|g" /etc/php5/php-fpm.conf #uncommenting line && \
 	#php.ini
 	sed -i "s|display_errors\s*=\s*Off|display_errors = ${PHP_DISPLAY_ERRORS}|i" /etc/php5/php.ini && \
@@ -72,10 +74,16 @@ RUN \
 
 #Configure Nginx: 
 RUN \
-	#to output logging info to Docker-Logs
-	ln -sf /dev/stdout /var/log/nginx/access.log && \
-	ln -sf /dev/stderr /var/log/nginx/error.log \
-	#autorestart nginx by S6 in case of crash
-	ln -s /bin/true /etc/services.d/nginx/finish
+       #to output logging info to Docker-Logs
+       ln -sf /dev/stdout /var/log/nginx/access.log && \
+       ln -sf /dev/stderr /var/log/nginx/error.log \
+       #autorestart nginx by S6 in case of crash
+       ln -s /bin/true /etc/services.d/nginx/finish
+
+
+COPY container-root /
+
+VOLUME /var/www/app
 
 EXPOSE 80 443
+

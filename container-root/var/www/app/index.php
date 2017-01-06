@@ -17,7 +17,7 @@
 working. Further configuration is required.</p>
 
 <h2>The gleb.poljakov/alpine-nginx-php5 variant.</h2>
-<?php echo "<p>if you see this text, the PHP is successfully configured and working. Further configuration is required.</p>" ?>
+<?php echo "<p>if you see this text, the PHP is successfully configured and working. Information about PHP on this server is accesseble <a href='phpinfo.php'>there</a>. Further configuration is required.</p>" ?>
 
 <p>For online documentation and support please refer to
 <a href="http://nginx.org/">nginx.org</a>.<br/>
