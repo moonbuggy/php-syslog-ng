@@ -70,7 +70,10 @@ RUN \
 	sed -i "s|;*upload_max_filesize =.*|upload_max_filesize = ${PHP_MAX_UPLOAD}|i" /etc/php5/php.ini && \
 	sed -i "s|;*max_file_uploads =.*|max_file_uploads = ${PHP_MAX_FILE_UPLOAD}|i" /etc/php5/php.ini && \
 	sed -i "s|;*post_max_size =.*|post_max_size = ${PHP_MAX_POST}|i" /etc/php5/php.ini && \
-	sed -i "s|;*cgi.fix_pat hinfo=.*|cgi.fix_pathinfo= ${PHP_CGI_FIX_PATHINFO}|i" /etc/php5/php.ini
+	sed -i "s|;*cgi.fix_pat hinfo=.*|cgi.fix_pathinfo= ${PHP_CGI_FIX_PATHINFO}|i" /etc/php5/php.ini && \
+	#autorestart php-fpm by S6 in case of crash
+       ln -s /bin/true /etc/services.d/php/finish
+
 
 #Configure Nginx: 
 RUN \
