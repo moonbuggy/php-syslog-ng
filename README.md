@@ -30,7 +30,7 @@ This container comes setup as follows:
 To alter the HTML content that nginx serves up (add your website files), add the following to your Dockerfile:
 
 ```
-ADD /path/to/content /var/www/app/
+COPY /path/to/content /var/www/app/
 ```
 
 index.html is the default, but that's easily changed (see below).
