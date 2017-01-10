@@ -1,6 +1,6 @@
 
 container-name := alpine-nginx-php5
-container-image = gleb.poljakov/$(container-name)
+container-image = glebpoljakov/$(container-name)
 
 .PHONY: build start clean mrproper
 
