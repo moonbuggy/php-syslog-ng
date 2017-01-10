@@ -79,10 +79,7 @@ RUN \
 RUN \
        #to output logging info to Docker-Logs
        ln -sf /dev/stdout /var/log/nginx/access.log && \
-       ln -sf /dev/stderr /var/log/nginx/error.log \
-       #autorestart nginx by S6 in case of crash
-       ln -s /bin/true /etc/services.d/nginx/finish
-
+       ln -sf /dev/stderr /var/log/nginx/error.log
 
 COPY container-root /
 
