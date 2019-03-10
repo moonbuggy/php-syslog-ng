@@ -1,34 +1,96 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Welcome to nginx!</title>
-<style>
-    body {
-        width: 35em;
-        margin: 0 auto;
-        font-family: Tahoma, Verdana, Arial, sans-serif;
-    }
-</style>
-</head>
-<body>
-<h1>Welcome to nginx!</h1>
-<h2>The smebberson/alpine-nginx variant.</h2>
-<p>If you see this page, the nginx web server is successfully installed and
-working. Further configuration is required.</p>
+<?php
+// Copyright (C) 2005 Claus Lund, clauslund@gmail.com
+// Copyright (C) 2006 Clayton Dukes, cdukes@cdukes.com
 
-<h2>The gleb.poljakov/alpine-nginx-php5 variant.</h2>
-<?php echo "<p>if you see this text, the PHP is successfully configured and working. Information about PHP on this server is accesseble <a href=\"phpinfo.php\">there</a>. Further configuration is required.</p>" ?>
+// Check to see if config.php is set, if not we need to run the installer.
+$chk_config = file_get_contents("config/config.php");
+if (strlen($chk_config) < 10) {
+   	header('Location: install/');
+} else {
+   	require_once ("config/config.php");
+   	require_once 'includes/common_funcs.php';
+}
 
-<h2>Documentation</h2>
 
-<p>For online documentation and support please refer to <a href="http://nginx.org/">nginx.org</a>.<br/>
-Commercial support is available at
-<a href="http://nginx.com/">nginx.com</a>.</p>
 
-<p>For online documentation specific to the smebberson/alpine-nginx,<br/>
-please refer to <a href="https://github.com/smebberson/docker-alpine/alpine-nginx">smebberson/docker-alpine</a>.</p>
+// Added below for v2.9.4 (LDAP)
+// session handler
+session_start();
+// Secure this page
+secure();
 
-<p><em>Thank you for using nginx.</em></p>
-</body>
-</html>
+$time_start = get_microtime();
 
+//------------------------------------------------------------------------
+// Determine what page is being requested
+//------------------------------------------------------------------------
+$pageId = get_input('pageId');
+if (!$pageId) { $pageId = "login"; }
+if(!validate_input($pageId, 'pageId')) {
+	echo "Error on pageId validation! <br>Check your regExpArray in config.php!\n";
+   	$pageId = "login";
+}
+
+//------------------------------------------------------------------------
+// Connect to database. If connection fails then set the pageId for the
+// help page.
+//------------------------------------------------------------------------
+$dbProblem = FALSE;
+if(!$dbLink = db_connect_syslog(DBUSER, DBUSERPW)) {
+   	$pageId = "help";
+   	$dbProblem = TRUE;
+}
+
+
+//------------------------------------------------------------------------
+// Load page
+//------------------------------------------------------------------------
+if(strcasecmp($pageId, "searchform") == 0) {
+	$addTitle = "SEARCH";
+	require 'includes/search.php';
+}
+elseif(strcasecmp($pageId, "login") == 0) {
+	$addTitle = "LOGIN";
+	require 'login.php';
+}
+elseif(strcasecmp($pageId, "logout") == 0) {
+	$addTitle = "LOGOUT";
+	require 'logout.php';
+}
+elseif(strcasecmp($pageId, "about") == 0) {
+	$addTitle = "ABOUT";
+	require 'includes/about.php';
+}
+elseif(strcasecmp($pageId, "help") == 0) {
+	$addTitle = "HELP";
+	require 'includes/help.php';
+}
+elseif(strcasecmp($pageId, "config") == 0) {
+	$addTitle = "CONFIG";
+	require 'includes/configure.php';
+}
+elseif(strcasecmp($pageId, "Tail") == 0) {
+	// custom title for tail queries 
+	// Ref: http://code.google.com/p/php-syslog-ng/issues/detail?id=33
+   	if ($_REQUEST['title'] == '') {
+	   	$addTitle = "TAIL RESULTS";
+   	}
+   	else {
+	   	$addTitle = $_REQUEST['title'];
+   	}
+	require 'includes/tailresult.php';
+}
+elseif(strcasecmp($pageId, "Graph") == 0) {
+	$addTitle = "GRAPH RESULTS";
+	require 'includes/graphit.php';
+}
+elseif(strcasecmp($pageId, "search") == 0) {
+	$addTitle = "REGULAR RESULTS";
+	require 'includes/regularresult.php';
+}
+else {
+	$addTitle = "SEARCH";
+	require 'includes/search.php';
+}
+require_once 'includes/html_footer.php';
+?>

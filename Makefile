@@ -1,15 +1,16 @@
+#!/bin/sh 
 
-container-name := alpine-nginx-php5
-container-image = glebpoljakov/$(container-name)
+container-name := php-syslog-ng
+container-image = moonbuggy/$(container-name)
 
 .PHONY: build start clean mrproper
 
 build: Dockerfile
-	docker build --rm -t $(container-image) .
+	docker build --rm --build-arg BUILD_DATE=$(shell date -u +'%Y-%m-%dT%H:%M:%SZ') -t $(container-image) .
 
 start: build 
-	docker create --name alpine-nginx-php5 -p 8880:80 $(container-image)
-	docker start alpine-nginx-php5
+	docker create --name $(container-name) -v php-syslog-ng_conf:/var/www/app/config/ $(container-image)
+	docker start $(container-name)
 
 clean:
 	docker stop $(container-name)
