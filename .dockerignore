@@ -1,0 +1,13 @@
+.git
+LICENSE
+README
+*.md
+www/scripts
+www/scripts/**/*
+TROUBLESHOOTING-INSTALL
+INSTALL-STEPS
+CHANGELOG
+userguide.doc
+Dockerfile*
+www/html/includes/jpgraph/Examples/
+www/html/includes/jpgraph/Examples/**/*
