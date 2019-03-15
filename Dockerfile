@@ -3,7 +3,7 @@ FROM smebberson/alpine-nginx:3.0.0
 ARG BUILD_DATE
 LABEL org.label-schema.schema-version = "1.0"
 LABEL org.label-schema.build-date = $BUILD_DATE
-LABEL org.label-schema.version = "1.0"
+LABEL org.label-schema.version = "1.0.1"
 LABEL org.label-schema.url = "https://github.com/moonbuggy/php-syslog-ng"
 LABEL org.label-schema.vcs-ref = "https://github.com/moonbuggy/php-syslog-ng"
 LABEL org.label-schema.description = "Updated version of php-syslog-ng in a Docker container."
