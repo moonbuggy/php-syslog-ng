@@ -1,5 +1,0 @@
-# http://nms.gdd.net/index.php/LogZilla_Installation_Guide#Cron
-# LogZilla
-@daily php /var/www/scripts/logrotate.php >> /var/log/logzilla/logrotate.log 2>&1
-@daily find /var/www/html/jpcache/ -atime 1 -exec rm -f '{}' ';' 
-0,5,10,15,20,25,30,35,40,45,50,55 * * * * php /var/www/scripts/reloadcache.php >> /var/log/logzilla/reloadcache.log 2>&1

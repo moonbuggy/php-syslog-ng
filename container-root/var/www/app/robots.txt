@@ -1,8 +1,0 @@
-User-agent: * 
-Disallow: /scripts/
-Disallow: /installation/
-Disallow: /config/
-Disallow: /css/
-Disallow: /includes/
-
- 
